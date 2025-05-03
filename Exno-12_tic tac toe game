@@ -1,0 +1,33 @@
+board = [" "]*9
+print("192372293-Mahesh K")
+def print_board():
+    for i in range(0, 9, 3):
+        print(" | ".join(board[i:i+3]))
+        if i < 6: print("-"*5)
+
+def check_win(p):
+    win_cond = [(0,1,2), (3,4,5), (6,7,8),
+                (0,3,6), (1,4,7), (2,5,8),
+                (0,4,8), (2,4,6)]
+    return any(board[a] == board[b] == board[c] == p for a,b,c in win_cond)
+
+def play():
+    player = "X"
+    for turn in range(9):
+        print_board()
+        try:
+            move = int(input(f"Player {player}, move (1-9): ")) - 1
+            if board[move] != " ": raise ValueError
+        except:
+            print("Invalid move.")
+            continue
+        board[move] = player
+        if check_win(player):
+            print_board()
+            print(f"Player {player} wins!")
+            return
+        player = "O" if player == "X" else "X"
+    print_board()
+    print("It's a draw!")
+
+play()
